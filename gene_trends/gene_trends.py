@@ -39,7 +39,7 @@ class GeneHints():
         stem = "data/homo-sapiens-"
         cite_path = f"{stem}pubmed-citations.tsv"
         view_path = f"{stem}wikipedia-views.tsv"
-        hint_path = f"{stem}gene-hints.tsv"
+        hint_path = f"{stem}gene-trends.tsv"
         merge_hints(cite_path, view_path, hint_path)
 
 # Command-line handler
