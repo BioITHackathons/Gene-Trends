@@ -1,5 +1,4 @@
 import React from 'react'
-import { geneHintType } from './TrendsDashboard';
 // import Ideogram from 'ideogram';
 type Props = {
   genes: string[]; // a list of gene symbols
