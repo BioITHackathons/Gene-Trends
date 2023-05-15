@@ -3,6 +3,7 @@ import TrendsForm from './TrendsForm'
 import { descending, tsv } from 'd3';
 import TrendsTable from './TrendsTable';
 import TrendsIdeogram from './TrendsIdeogram';
+import TrendsTimeline from './TrendsTimeline';
 
 const verbose = false;
 export default function TrendsDashboard() {
@@ -47,6 +48,7 @@ export default function TrendsDashboard() {
             return <div key={i}>{i} {g.gene}</div>
           })} */}
           <TrendsIdeogram genes={getTop10CitedGenes(geneData)}/>
+          <TrendsTimeline genes={getTop10CitedGenes(geneData)}/>
         </div>
       </div>
       <div className="w3-container w3-row w3-padding-32">
@@ -90,6 +92,7 @@ function getGeneSymbols(data:any[]):string[]{
 function getGenes(data:any[]):geneHintType[]{
   return (data.map((d)=>{
     let _d = Object.assign({}, d) as geneHintType // make a hard copy
+
     _d.cites = parseInt(d.cites);
     _d.cite_delta = parseInt(d.cite_delta);
     _d.cite_rank = parseInt(d.cite_rank);
@@ -97,11 +100,11 @@ function getGenes(data:any[]):geneHintType[]{
     _d.views = parseInt(d.views);
     _d.view_delta = parseInt(d.view_delta);
     _d.view_rank = parseInt(d.view_rank);
-    _d.view_rank_delta = parseInt(d.vew_rank_delta);
+    _d.view_rank_delta = parseInt(d.view_rank_delta);
     return _d;
   }) )
 }
 
-function getTop10CitedGenes(data:geneHintType[]):geneHintType[]{
-  return data.sort((a, b)=>descending(a.cites, b.cites)).slice(0, 10)
+function getTop10CitedGenes(data:geneHintType[]):string[]{
+  return data.sort((a, b)=>descending(a.cites, b.cites)).slice(0, 10).map((d)=>d.gene)
 }
