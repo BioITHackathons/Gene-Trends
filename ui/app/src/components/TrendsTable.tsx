@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { geneHintType } from './TrendsDashboard'
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 

@@ -29,7 +29,7 @@ export default function TrendsDashboard() {
     setSelectedGenes(genes);
 
     if (verbose){
-      genes.map((g)=>{
+      genes.forEach((g)=>{
         console.log(g, geneWikiMap.get(g))
       })
     }
