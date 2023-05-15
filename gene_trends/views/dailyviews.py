@@ -10,6 +10,7 @@ import argparse
 import csv
 from datetime import datetime, timedelta
 import os
+import pathlib
 import sys
 from time import perf_counter
 from urllib.parse import urljoin
@@ -50,10 +51,6 @@ class DailyViews:
             os.makedirs(output_dir)
 
         self.output_dir = output_dir
-        self.output_path =\
-            self.output_dir + "homo-sapiens-wikipedia-views.tsv"
-        self.prev_output_path =\
-            self.output_dir + "homo-sapiens-wikipedia-views-prev.tsv"
 
         self.downloads_dir = downloads_dir
         self.base_url = base_url
@@ -158,7 +155,7 @@ class DailyViews:
         print(f"\t* Processed {line_count:,} lines in {perf_time} seconds ({lps})")
         return views_by_gene
 
-    def save_to_file(self, views_by_gene, days):
+    def save_to_file(self, views_by_gene, date):
         """Read the existing TSV file, and update the gene counts
         The file rows should be of the format:
         ["gene", "views", "prev_views"]
@@ -171,58 +168,31 @@ class DailyViews:
         print("\nTop viewed gene pages:", dict(ordered_counts[:10]))
         print()
 
-        # Read existing data
-        prev_gene_views = {}
-        prev_gene_ranks = {}
-
-        if days == 1:
-            with open(self.prev_output_path, "rt") as f:
-                reader = csv.reader(f, delimiter="\t")
-                line_count = 0
-                for row in reader:
-                    if line_count > 0:
-                        gene = row[0]
-                        views = int(row[1])
-                        prev_gene_views[gene] = views
-                        prev_gene_ranks[gene] = line_count
-                    line_count += 1
-
-        if days == 0:
-            path = self.prev_output_path
-        else:
-            path = self.output_path
-
+        path = pathlib.Path(
+            self.output_dir,
+            date.strftime('homo-sapiens-wikipedia-views-%Y-%m-%d.tsv'),
+        )
         # Overwrite the file with new data
-        with open(path, "w") as f:
-            if days == 0:
-                headers = [
-                    "# gene",
-                    "views",
-                    "view_rank"
-                ]
-            else:
-                headers = [
-                    "# gene",
-                    "views",
-                    "view_delta",
-                    "view_rank",
-                    "view_rank_delta"
-                ]
-            f.write("\t".join(headers) + "\n")
-            rank = 1
-            for gene, views in ordered_counts:
-                if days == 0:
-                    columns = [gene, views, rank]
-                else:
-                    view_delta = views - prev_gene_views.get(gene, 0)
-                    # delta is 0 if the record did not exist before
-                    rank_delta = rank - prev_gene_ranks.get(gene, rank)
-                    columns = [gene, views, view_delta, rank, rank_delta]
-                columns = [str(col) for col in columns]
-                f.write("\t".join(columns) + "\n")
-                rank += 1
+        with path.open('w') as f:
+            headers = [
+                "# gene",
+                "views",
+                "view_delta",
+                "view_rank",
+                "view_rank_delta"
+            ]
+            print(*headers, sep='\t', file=f)
+            for rank, (gene, views) in enumerate(ordered_counts, 1):
+                view_delta = views - self.prev_gene_views.get(gene, 0)
+                # delta is 0 if the record did not exist before
+                rank_delta = rank - self.prev_gene_ranks.get(gene, rank)
+                print(gene, views, view_delta, rank, rank_delta, sep='\t', file=f)
 
         print(f"Wrote Wikipedia views output file to {path}")
+        self.prev_gene_views = dict(views_by_gene)
+        self.prev_gene_ranks = {
+            gene: rank for rank, (gene, _) in enumerate(ordered_counts, 1)
+        }
 
     def run(self, sort_by="count"):
         """Output TSV of recent Wikipedia page views for all human genes
@@ -230,17 +200,19 @@ class DailyViews:
         start_time = perf_counter()
 
         genes_by_page = self.load_page_to_gene_map()
-        date = datetime.utcnow().date() - timedelta(days=4)
-        one_day = timedelta(days=1)
+        today = datetime.utcnow().date()
+        init_views_by_gene = self.init_views_by_gene(genes_by_page)
+        self.prev_gene_views = dict(init_views_by_gene)
+        self.prev_gene_ranks = {}
 
-        for days in range(2):
-            date += one_day
+        for days_ago in range(180, 0, -1):
+            date = today - timedelta(days=days_ago)
             self.download_views_file(date)
-            views_by_gene = self.init_views_by_gene(genes_by_page)
+            views_by_gene = dict(init_views_by_gene)
             views_by_gene = self.process_views_file(
                 views_by_gene, genes_by_page, date,
             )
-            self.save_to_file(views_by_gene, days)
+            self.save_to_file(views_by_gene, date)
 
         perf_time = round(perf_counter() - start_time, 2) # E.g. 230.71
         print(f"Finished in {perf_time} seconds.\n\n")
