@@ -3,6 +3,7 @@ import TrendsForm from './TrendsForm'
 import { descending, tsv } from 'd3';
 import TrendsTable from './TrendsTable';
 import TrendsIdeogram from './TrendsIdeogram';
+import TrendsTimeline from './TrendsTimeline';
 
 const verbose = false;
 export default function TrendsDashboard() {
@@ -47,6 +48,7 @@ export default function TrendsDashboard() {
             return <div key={i}>{i} {g.gene}</div>
           })} */}
           <TrendsIdeogram genes={getTop10CitedGenes(geneData)}/>
+          <TrendsTimeline genes={getTop10CitedGenes(geneData)}/>
         </div>
       </div>
       <div className="w3-container w3-row w3-padding-32">
@@ -102,6 +104,6 @@ function getGenes(data:any[]):geneHintType[]{
   }) )
 }
 
-function getTop10CitedGenes(data:geneHintType[]):geneHintType[]{
-  return data.sort((a, b)=>descending(a.cites, b.cites)).slice(0, 10)
+function getTop10CitedGenes(data:geneHintType[]):string[]{
+  return data.sort((a, b)=>descending(a.cites, b.cites)).slice(0, 10).map((d)=>d.gene)
 }
