@@ -285,4 +285,4 @@ if __name__ == "__main__":
     hours_per_day = args.hours_per_day
 
     # Run everything!
-    Views(cache, hours_per_day).run(sort_by)
+    DailyViews(cache, hours_per_day).run(sort_by)
