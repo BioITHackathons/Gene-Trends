@@ -4,7 +4,7 @@
 import argparse
 
 from citations.citations import Citations
-from views.views import Views
+from views.dailyviews import DailyViews
 from merge_hints import merge_hints
 
 class GeneHints():
@@ -25,7 +25,7 @@ class GeneHints():
         only = self.only
         cache = self.debug
         if not only or "views" in only:
-            Views(cache, self.hours_per_day).run(self.sort_by)
+            DailyViews(cache, self.hours_per_day).run(self.sort_by)
         if not only or "citations" in only:
             Citations(cache).run(self.sort_by)
 

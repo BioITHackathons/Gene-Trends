@@ -1,6 +1,7 @@
 """Functions used by multiple Gene Hints modules
 """
 
+import bz2
 import csv
 import os
 import gzip
@@ -82,3 +83,21 @@ def download_gzip(url, output_path, cache=0):
 
     with open(output_path, "w") as f:
         f.write(content)
+
+def download_bz2(url, output_path, cache=0):
+    """Download bzip2 file, decompress, write to output path; use optional cache
+
+    Cached files can help speed development iterations by > 2x, and some
+    development scenarios (e.g. on a train or otherwise without an Internet
+    connection) can be impossible without it.
+    """
+
+    if is_cached(output_path, cache, 1):
+        return
+
+    unbz2 = bz2.BZ2Decompressor()
+    response = requests.get(url, stream=True)
+    response.raise_for_status()
+    with open(output_path, "wb") as f:
+        for chunk in response.iter_content(chunk_size=65536):
+            f.write(unbz2.decompress(chunk))
