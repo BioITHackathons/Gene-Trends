@@ -1,6 +1,6 @@
 env
 data/tmp
-gene_hints/__pycache__
-gene_hints/views/__pycache__/*
-gene_hints/citations/__pycache__
+gene_trends/__pycache__
+gene_trends/views/__pycache__/*
+gene_trends/citations/__pycache__
 pubmed_citations
