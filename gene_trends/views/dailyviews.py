@@ -98,7 +98,7 @@ class DailyViews:
     def get_times_and_path(self, date):
         time = date.strftime("%m/%d/%Y")
         machine_time = date.strftime("%Y%m%d")
-        path = f"{self.downloads_dir}pageview_complete_{machine_time}.gz"
+        path = f"{self.downloads_dir}pageview_complete_{machine_time}.txt"
         return time, path, date
 
     def download_views_file(self, date):
