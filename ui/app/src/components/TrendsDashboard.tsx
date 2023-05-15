@@ -92,6 +92,7 @@ function getGeneSymbols(data:any[]):string[]{
 function getGenes(data:any[]):geneHintType[]{
   return (data.map((d)=>{
     let _d = Object.assign({}, d) as geneHintType // make a hard copy
+
     _d.cites = parseInt(d.cites);
     _d.cite_delta = parseInt(d.cite_delta);
     _d.cite_rank = parseInt(d.cite_rank);
@@ -99,7 +100,7 @@ function getGenes(data:any[]):geneHintType[]{
     _d.views = parseInt(d.views);
     _d.view_delta = parseInt(d.view_delta);
     _d.view_rank = parseInt(d.view_rank);
-    _d.view_rank_delta = parseInt(d.vew_rank_delta);
+    _d.view_rank_delta = parseInt(d.view_rank_delta);
     return _d;
   }) )
 }
