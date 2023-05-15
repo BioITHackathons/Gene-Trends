@@ -230,17 +230,17 @@ class DailyViews:
         start_time = perf_counter()
 
         genes_by_page = self.load_page_to_gene_map()
-        date = datetime.utcnow().date()
+        date = datetime.utcnow().date() - timedelta(days=4)
         one_day = timedelta(days=1)
 
         for days in range(2):
-            date -= one_day
+            date += one_day
             self.download_views_file(date)
             views_by_gene = self.init_views_by_gene(genes_by_page)
             views_by_gene = self.process_views_file(
                 views_by_gene, genes_by_page, date,
             )
-            self.save_to_file(views_by_gene, date)
+            self.save_to_file(views_by_gene, days)
 
         perf_time = round(perf_counter() - start_time, 2) # E.g. 230.71
         print(f"Finished in {perf_time} seconds.\n\n")
