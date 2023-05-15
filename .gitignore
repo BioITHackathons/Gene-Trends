@@ -1,0 +1,6 @@
+env
+data/tmp
+gene_hints/__pycache__
+gene_hints/views/__pycache__/*
+gene_hints/citations/__pycache__
+pubmed_citations
