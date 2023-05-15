@@ -1,11 +1,11 @@
 import React from 'react';
-// import logo from './logo.svg';
+// import logo from './logo.svg'; // uncomment this when we have our own logo.svg
 import './App.css';
-import Dashboard from './components/Dashboard';
+import TrendsDashboard from './components/TrendsDashboard';
 
 function App() {
   return (
-    <Dashboard/>
+    <TrendsDashboard/>
   );
 }
 
