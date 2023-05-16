@@ -35,7 +35,7 @@ export default function TrendsDashboard() {
       <h1 className="w3-text-grey">Gene Trends Dashboard</h1>
       <hr/>
       <div className="w3-container w3-row">
-        <div className="w3-container w3-cell" style={{minWidth:"20%"}}>
+        <div className="w3-container w3-cell">
           <TrendsForm callback={callback} geneSymbols={geneSymbols} geneInfoMap={geneWikiMap}/>
         </div>
         <div className="w3-container w3-cell" style={{width:"80%", minHeight:"500px"}}>

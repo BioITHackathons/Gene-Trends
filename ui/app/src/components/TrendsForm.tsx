@@ -29,6 +29,7 @@ export default function TrendsForm({callback, geneSymbols, geneInfoMap}:Props) {
               // variant="outlined"
               label="Genes"
               placeholder="Select"
+              style={{minWidth:"200px"}}
             />
           )}
         />
