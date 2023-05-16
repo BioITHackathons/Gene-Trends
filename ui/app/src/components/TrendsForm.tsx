@@ -34,7 +34,7 @@ export default function TrendsForm({callback, geneSymbols, geneInfoMap}:Props) {
         />
       </FormControl>
     </>
- 
+
   )
 }
 

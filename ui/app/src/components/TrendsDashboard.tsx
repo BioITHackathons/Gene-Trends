@@ -25,15 +25,15 @@ export default function TrendsDashboard() {
       console.error(error)
     })
   }, [])
-  
+
   const callback = (genes:string[])=>{
     setSelectedGenes(genes);
 
-    if (verbose){
+    // if (verbose){
       genes.forEach((g)=>{
         console.log(g, geneWikiMap.get(g))
       })
-    }
+    // }
   }
   return (
     <div className="w3-container">
@@ -47,11 +47,11 @@ export default function TrendsDashboard() {
           {/* {getTop10CitedGenes(geneData).map((g, i)=>{
             return <div key={i}>{i} {g.gene}</div>
           })} */}
-          <TrendsIdeogram genes={getTop10CitedGenes(geneData)}/>
+          <TrendsIdeogram defaultGenes={getTop10CitedGenes(geneData)} selectedGenes={selectedGenes}/>
           <TrendsTimeline genes={getTop10CitedGenes(geneData)}/>
         </div>
       </div>
-      <div className="w3-container w3-row w3-padding-32">
+      <div className="w3-container w3-row w3-padding-48">
           {geneData.length>0 && <TrendsTable geneData={geneData}/>}
         </div>
     </div>
