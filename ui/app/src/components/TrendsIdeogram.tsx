@@ -43,6 +43,9 @@ const defaultIdeoConfig = {
     const ideoEl : any = document.querySelector('#_ideogram')
     ideoEl.style.left = '170px';
 
+    const trendsEl : any = document.querySelector('#trends-ideogram')
+    trendsEl.style.position = null;
+
     // Handles edge case: when organism lacks chromosome-level assembly
     // if (!genomeHasChromosomes()) {return}
     // this.plotRelatedGenes(gene)

@@ -14,7 +14,7 @@ export default function TrendsDashboard() {
   useEffect(()=>{
     const promises = [
       tsv('data/gene_page_map.tsv'), // from wiki
-      tsv('data/homo_sapiens_gene_hints.tsv') // pubmed + wiki
+      tsv('data/homo-sapiens-pubmed-citations.tsv') // pubmed
     ]
     Promise.all(promises).then(([input, input2])=>{
       console.log(input2)
@@ -44,16 +44,18 @@ export default function TrendsDashboard() {
           <TrendsForm callback={callback} geneSymbols={geneSymbols} geneInfoMap={geneWikiMap}/>
         </div>
         <div className="w3-container w3-cell" style={{width:"80%", minHeight:"500px"}}>
-          {/* {getTop10CitedGenes(geneData).map((g, i)=>{
-            return <div key={i}>{i} {g.gene}</div>
-          })} */}
           <TrendsIdeogram defaultGenes={getTop10CitedGenes(geneData)} selectedGenes={selectedGenes}/>
+        </div>
+      </div>
+      <br/><br/><br/>
+      <div className="w3-container w3-row w3-padding-48">
+        <div className="w3-cell w3-container" style={{'width': '300px'}}>
+          {geneData.length>0 && <TrendsTable geneData={geneData}/>}
+        </div>
+        <div className="w3-cell w3-container" style={{'position': 'relative', 'top': '50px'}}>
           <TrendsTimeline genes={getTop10CitedGenes(geneData)}/>
         </div>
       </div>
-      <div className="w3-container w3-row w3-padding-48">
-          {geneData.length>0 && <TrendsTable geneData={geneData}/>}
-        </div>
     </div>
   )
 }
@@ -70,10 +72,10 @@ export type geneHintType = {
   'cite_delta':number;
   'cite_rank':number;
   'cite_rank_delta':number;
-  'views':number;
-  'view_delta':number;
-  'view_rank':number;
-  'view_rank_delta':number;
+  // 'views':number;
+  // 'view_delta':number;
+  // 'view_rank':number;
+  // 'view_rank_delta':number;
 }
 
 function getGeneWikiMap(data:any[]):Map<string, string>{
@@ -97,10 +99,10 @@ function getGenes(data:any[]):geneHintType[]{
     _d.cite_delta = parseInt(d.cite_delta);
     _d.cite_rank = parseInt(d.cite_rank);
     _d.cite_rank_delta = parseInt(d.cite_rank_delta);
-    _d.views = parseInt(d.views);
-    _d.view_delta = parseInt(d.view_delta);
-    _d.view_rank = parseInt(d.view_rank);
-    _d.view_rank_delta = parseInt(d.view_rank_delta);
+    // _d.views = parseInt(d.views);
+    // _d.view_delta = parseInt(d.view_delta);
+    // _d.view_rank = parseInt(d.view_rank);
+    // _d.view_rank_delta = parseInt(d.view_rank_delta);
     return _d;
   }) )
 }

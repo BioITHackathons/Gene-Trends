@@ -20,7 +20,7 @@ export default function TrendsTimeline({genes}: Props) {
   let vizData = randomDataGenerator(genes)
   let colorTheme = schemeTableau10;
   return (
-    <LineChart width={1000} height={300} data={vizData}>
+    <LineChart width={700} height={400} data={vizData}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="date" tickFormatter={dateFormatter}/>
       <YAxis/>
@@ -29,7 +29,7 @@ export default function TrendsTimeline({genes}: Props) {
       {genes.map((g, i)=>{
         return <Line type="monotone" dataKey={g} name={g} stroke={colorTheme[i]} activeDot={{ r: 1 }} />
       })}
-     
+
     </LineChart>
   )
 }
@@ -43,12 +43,12 @@ function randomDataGenerator(glist:string[]){
 
   const days = Math.floor((endDate.getTime() - startDate.getTime()) / millisecondsPerDay);
 
-  console.log(glist); 
+  console.log(glist);
 
   let date = startDate;
 
   range(days-1).forEach((day)=>{
-    console.log(date.getDate())
+    // console.log(date.getDate())
     let theDate = new Date(date.toDateString())
     let data = {
       date: theDate
@@ -60,7 +60,7 @@ function randomDataGenerator(glist:string[]){
     })
     randomData.push(Object.assign({}, data, geneData))
     date.setDate(date.getDate() + 1);
-    
+
   })
 
   console.log(randomData)
