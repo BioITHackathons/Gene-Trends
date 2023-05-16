@@ -18,6 +18,7 @@
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "d3": "^7.8.4",
+    "env-cmd": "^10.1.0",
     "ideogram": "^1.41.0",
     "material-react-table": "^1.11.3",
     "react": "^18.2.0",
@@ -28,8 +29,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "env-cmd -e local react-scripts start",
+    "build": "env-cmd -e production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -51,4 +52,5 @@
       "last 1 safari version"
     ]
   }
+
 }
