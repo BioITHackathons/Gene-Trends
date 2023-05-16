@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { FormControl, TextField } from '@material-ui/core';
+import { FormControl, IconButton, TextField } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
+import CloseIcon from '@material-ui/icons/Close';
 
 type Props = {
   callback:(genes:string)=>void;
@@ -27,11 +28,15 @@ export default function TrendsForm({callback, geneSymbols, geneInfoMap}:Props) {
             <TextField
               {...params}
               // variant="outlined"
-              label="Genes"
+              label="Gene"
               placeholder="Select"
               style={{minWidth:"200px"}}
             />
           )}
+          closeIcon={<CloseIcon onClick={()=>{
+            setSelectedGene("TP53");
+            callback("")
+          }} />}
         />
       </FormControl>
     </>

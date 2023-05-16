@@ -28,11 +28,14 @@ export default function TrendsDashboard() {
   }, [])
 
   const callback = (gene:string)=>{
-    console.log(gene)
-    setSelectedGene(gene);
-    setTableData(filterData(gene))
-    console.log(gene, geneWikiMap.get(gene))
+    setSelectedGene(gene===''?'TP53':gene);
+    setTableData(gene===''?geneData:filterData(gene))
   }
+
+  const handleClear = () => {
+    setSelectedGene('TP53');
+    setTableData(geneData)
+  };
 
   const filterData = (gene:string)=>{
     return geneData.filter(g=>g.gene===gene)
@@ -62,7 +65,11 @@ export default function TrendsDashboard() {
         </div>
         <div className="w3-cell w3-container" style={{'position': 'relative', 'top': '50px'}}>
         {selectedGene !== undefined &&
+        <>
+          <h2>{selectedGene} {geneWikiMap.get(selectedGene)}</h2>
           <TrendsTimeline gene={selectedGene}/>
+        </>
+      
   }
         </div>
       </div>
