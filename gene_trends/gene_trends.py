@@ -46,6 +46,7 @@ class GeneHints():
 if __name__ == "__main__":
     usage = """
     python3 gene_hints/gene_hints.py --days 365
+    python3 gene_trends/gene_trends.py --days 5 --hours-per-day 24 --only citations --sort-by count
     """
     parser = argparse.ArgumentParser(
         description=__doc__,

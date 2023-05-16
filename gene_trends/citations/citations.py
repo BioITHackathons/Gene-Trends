@@ -23,6 +23,7 @@ if __name__ == "__main__":
 
 from lib import read_organisms, is_cached, download_gzip
 from enrich_citations import EnrichCitations
+from enrich_citation_count import EnrichCitations_datestamp
 from pmids_by_date import pmids_by_date
 
 def format_date(days_before=None):
@@ -192,10 +193,14 @@ class Citations():
         prev_pmid_dates_path = self.data_dir + "prev_pmid_dates.tsv"
 
         # Download citation and genomic data
-        self.download_data(pmid_dates_path, prev_pmid_dates_path, days)
+        # self.download_data(pmid_dates_path, prev_pmid_dates_path, days)
 
         # Combine that downloaded data, compute statistics, and write to TSV
-        EnrichCitations().run(
+        # EnrichCitations().run(
+        #     pmid_dates_path, prev_pmid_dates_path, days, sort_by
+        # )
+        
+        EnrichCitations_datestamp().run(
             pmid_dates_path, prev_pmid_dates_path, days, sort_by
         )
 

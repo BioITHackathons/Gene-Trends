@@ -115,7 +115,8 @@ class EnrichCitations():
         # print(gene2pubmed_path)
         with open(gene2pubmed_path) as f:
             reader = csv.reader(f, delimiter="\t", quotechar='"')
-            for row in reader:
+            
+            for row in reader:                    
                 if row[0][0] == "#":
                     continue
                 gene_id = row[1]
@@ -148,6 +149,8 @@ class EnrichCitations():
 
         # Get list of above PMIDs that were published in the dates of interest
         pmids = get_pmids_with_genes_in_timeframe(genes_by_pmid, pmid_dates_path)
+        # print('pmid_dates_path', pmid_dates_path)
+        # print('pmids ', pmids)
 
         # if len(pmids) > 0:
         #     # Output the first element in the pmids variable
