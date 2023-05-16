@@ -5,7 +5,6 @@ import TrendsTable from './TrendsTable';
 import TrendsIdeogram from './TrendsIdeogram';
 import TrendsTimeline from './TrendsTimeline';
 
-const verbose = false;
 export default function TrendsDashboard() {
   const [geneWikiMap, setGeneWikiMap] = useState<Map<string, string>>(new Map())
   const [geneSymbols, setGeneSymbols ] = useState<string[]>([]);
@@ -100,10 +99,6 @@ function getGenes(data:any[]):geneHintType[]{
     _d.view_rank_delta = parseInt(d.view_rank_delta);
     return _d;
   }) )
-}
-
-function getTop10CitedGenes(data:geneHintType[]):string[]{
-  return data.sort((a, b)=>descending(a.cites, b.cites)).slice(0, 10).map((d)=>d.gene)
 }
 
 function getTopCitedGene(data:any[]):string{
