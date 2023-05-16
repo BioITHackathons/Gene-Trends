@@ -1,3 +1,3 @@
 
-export type genericType = {[k: string]:number}
+export type genericType = {[k: string]:number|Date}
 
