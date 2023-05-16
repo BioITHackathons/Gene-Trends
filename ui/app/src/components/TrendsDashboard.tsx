@@ -38,9 +38,13 @@ export default function TrendsDashboard() {
           <TrendsForm callback={callback} geneSymbols={geneSymbols} geneInfoMap={geneWikiMap}/>
         </div>
         <div className="w3-container w3-cell" style={{width:"80%", minHeight:"500px"}}>
-        {/* {selectedGene !== undefined &&
+        <div
+          id="trends-ideogram"
+          style={{'position': 'relative', 'left': '400px'}}
+        ></div>
+        {selectedGene !== undefined &&
           <TrendsIdeogram gene={selectedGene} />
-        } */}
+        }
         </div>
       </div>
       <br/><br/><br/>

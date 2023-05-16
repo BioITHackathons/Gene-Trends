@@ -64,16 +64,9 @@ export default function TrendsIdeogram({gene}: Props) {
 
   const [ideoConfig, setIdeoConfig] = useState(defaultIdeoConfig)
 
-  let ideogram = Ideogram.initRelatedGenes(defaultIdeoConfig)
-
-  console.log('gene')
-  console.log(gene)
   useEffect(() => {
     if (staticIdeogram) {
-      console.log('gene', gene)
       staticIdeogram.plotRelatedGenes(gene)
-      console.log('static ideogram', staticIdeogram)
-      console.log('staticIdeogram.geneCache', staticIdeogram.geneCache)
     } else {
       staticIdeogram = ideogram
       setTimeout(function() {
@@ -85,12 +78,6 @@ export default function TrendsIdeogram({gene}: Props) {
 
   return (
     <>
-      <div
-        id="trends-ideogram"
-        style={{'position': 'relative', 'left': '400px'}}
-      ></div>
-
-
     </>
   )
 }
