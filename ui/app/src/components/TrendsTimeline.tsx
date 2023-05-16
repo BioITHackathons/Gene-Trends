@@ -11,7 +11,8 @@ const dateFormatter = (time: string | number): string => {
   const date = new Date(time);
   const month = date.toLocaleString('en-US', { month: 'short' });
   const day = date.getDate();
-  return `${month} ${day}`;
+  const year = date.getFullYear();
+  return `${month} ${day} ${year}`;
 };
 
 export default function TrendsTimeline({genes}: Props) {
@@ -34,7 +35,7 @@ export default function TrendsTimeline({genes}: Props) {
 
 function randomDataGenerator(glist:string[]){
   let randomData:any[] = [];
-  const startDate = new Date('2023-01-01');
+  const startDate = new Date('2022-06-01');
   const endDate = new Date();
   const millisecondsPerDay: number = 1000 * 60 * 60 * 24;
 
