@@ -1,3 +1,3 @@
 
-export type genericType = {[k: string]:string}
+export type genericType = {[k: string]:number}
 
