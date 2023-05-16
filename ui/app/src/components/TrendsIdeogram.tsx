@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Ideogram from 'ideogram';
 
 type Props = {
-  genes: string[]; // a list of gene symbols
+  defaultGenes: string[]; // a list of gene symbols
+  selectedGenes: string[]; // a list of gene symbols
 }
 
 /** Handle clicks on Ideogram annotations */
@@ -51,31 +52,44 @@ const defaultIdeoConfig = {
 
 let staticIdeogram: any = null;
 
-export default function TrendsIdeogram({genes}: Props) {
+let ideogram = Ideogram.initRelatedGenes(defaultIdeoConfig)
+
+function plotGene(gene : any) {
+
+}
+
+export default function TrendsIdeogram({defaultGenes, selectedGenes}: Props) {
 
   const [ideoConfig, setIdeoConfig] = useState(defaultIdeoConfig)
 
-
-  let ideogram = Ideogram.initRelatedGenes(ideoConfig)
-
   useEffect(() => {
 
+    let gene : any
+    if (selectedGenes.length > 0) {
+      gene = selectedGenes[0]
+    } else {
+      gene = defaultGenes[0]
+    }
+
     if (staticIdeogram) {
-      console.log('genes[0]', genes[0])
-      staticIdeogram.plotRelatedGenes(genes[0])
+      console.log('gene', gene)
+      staticIdeogram.plotRelatedGenes(gene)
       console.log('static ideogram', staticIdeogram)
       console.log('staticIdeogram.geneCache', staticIdeogram.geneCache)
     } else {
       staticIdeogram = ideogram
+      setTimeout(function() {
+        staticIdeogram.plotRelatedGenes(gene)
+      }, 2000)
     }
 
-  }, [genes])
+  }, [defaultGenes, selectedGenes])
 
   return (
     <>
       <div
         id="trends-ideogram"
-        style={{'position': 'relative', 'left': '300px'}}
+        style={{'position': 'relative', 'left': '400px'}}
       ></div>
 
 

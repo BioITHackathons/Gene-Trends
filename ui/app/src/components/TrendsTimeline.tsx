@@ -19,7 +19,7 @@ function randomDataGenerator(glist:string[]){
   const millisecondsPerDay: number = 1000 * 60 * 60 * 24;
 
   const days = Math.floor((endDate.getTime() - startDate.getTime()) / millisecondsPerDay);
-  console.log(glist); 
+  console.log(glist);
 
 
   let seed = randomUniform(10, 100)()
@@ -35,6 +35,4 @@ function randomDataGenerator(glist:string[]){
       date.setDate(date.getDate() + 1);
     })
   })
-
-  console.log(randomData)
 }
