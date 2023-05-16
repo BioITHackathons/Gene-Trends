@@ -13,8 +13,8 @@ export default function TrendsDashboard() {
   const [geneData, setGeneData] = useState<geneHintType[]>([]);
   useEffect(()=>{
     const promises = [
-      tsv("/data/gene_page_map.tsv"), // from wiki
-      tsv("/data/homo_sapiens_gene_hints.tsv") // pubmed + wiki
+      tsv('data/gene_page_map.tsv'), // from wiki
+      tsv('data/homo_sapiens_gene_hints.tsv') // pubmed + wiki
     ]
     Promise.all(promises).then(([input, input2])=>{
       console.log(input2)
