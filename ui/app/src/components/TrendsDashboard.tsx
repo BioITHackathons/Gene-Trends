@@ -9,6 +9,7 @@ export default function TrendsDashboard() {
   const [geneWikiMap, setGeneWikiMap] = useState<Map<string, string>>(new Map())
   const [geneSymbols, setGeneSymbols ] = useState<string[]>([]);
   const [selectedGene, setSelectedGene] = useState<string>();
+  const [tableData, setTableData] = useState<geneHintType[]>([]);
   const [geneData, setGeneData] = useState<geneHintType[]>([]);
   useEffect(()=>{
     const promises = [
@@ -19,6 +20,7 @@ export default function TrendsDashboard() {
       setGeneWikiMap(getGeneWikiMap(input));
       setGeneSymbols(getGeneSymbols(input2)); // from pubmed+wiki
       setGeneData(getGenes(input2));
+      setTableData(getGenes(input2));
       setSelectedGene(getTopCitedGene(input2))
     }).catch(error=>{
       console.error(error)
@@ -26,8 +28,14 @@ export default function TrendsDashboard() {
   }, [])
 
   const callback = (gene:string)=>{
+    console.log(gene)
     setSelectedGene(gene);
+    setTableData(filterData(gene))
     console.log(gene, geneWikiMap.get(gene))
+  }
+
+  const filterData = (gene:string)=>{
+    return geneData.filter(g=>g.gene===gene)
   }
   return (
     <div className="w3-container">
@@ -50,7 +58,7 @@ export default function TrendsDashboard() {
       <br/><br/><br/>
       <div className="w3-container w3-row w3-padding-48">
         <div className="w3-cell w3-container" style={{'width': '300px'}}>
-          {geneData.length>0 && <TrendsTable geneData={geneData}/>}
+          {tableData.length>0 && <TrendsTable geneData={tableData as geneHintType[]}/>}
         </div>
         <div className="w3-cell w3-container" style={{'position': 'relative', 'top': '50px'}}>
         {selectedGene !== undefined &&
