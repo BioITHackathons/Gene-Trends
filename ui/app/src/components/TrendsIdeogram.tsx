@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Ideogram from 'ideogram';
 
 type Props = {
-  defaultGenes: string[]; // a list of gene symbols
-  selectedGenes: string[]; // a list of gene symbols
+  gene: string; // a gene symbol
 }
 
 /** Handle clicks on Ideogram annotations */
@@ -43,6 +42,9 @@ const defaultIdeoConfig = {
     const ideoEl : any = document.querySelector('#_ideogram')
     ideoEl.style.left = '170px';
 
+    const trendsEl : any = document.querySelector('#trends-ideogram')
+    trendsEl.style.position = null;
+
     // Handles edge case: when organism lacks chromosome-level assembly
     // if (!genomeHasChromosomes()) {return}
     // this.plotRelatedGenes(gene)
@@ -58,19 +60,15 @@ function plotGene(gene : any) {
 
 }
 
-export default function TrendsIdeogram({defaultGenes, selectedGenes}: Props) {
+export default function TrendsIdeogram({gene}: Props) {
 
   const [ideoConfig, setIdeoConfig] = useState(defaultIdeoConfig)
 
+  let ideogram = Ideogram.initRelatedGenes(defaultIdeoConfig)
+
+  console.log('gene')
+  console.log(gene)
   useEffect(() => {
-
-    let gene : any
-    if (selectedGenes.length > 0) {
-      gene = selectedGenes[0]
-    } else {
-      gene = defaultGenes[0]
-    }
-
     if (staticIdeogram) {
       console.log('gene', gene)
       staticIdeogram.plotRelatedGenes(gene)
@@ -83,7 +81,7 @@ export default function TrendsIdeogram({defaultGenes, selectedGenes}: Props) {
       }, 2000)
     }
 
-  }, [defaultGenes, selectedGenes])
+  }, [gene])
 
   return (
     <>

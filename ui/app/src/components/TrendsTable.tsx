@@ -12,28 +12,30 @@ export default function TrendsTable({geneData}: Props) {
     ()=>attrList.map((d)=>{
       return {
         accessorKey:d,
-        header:d
+        header:d,
+        size: 100
       }
     }) as MRT_ColumnDef<geneHintType>[],
     [attrList]
   );
 
   return (
-    <div style={{overflowX:"scroll"}}>
-      <h4>180 Days Most Cited Genes</h4>
+    <div style={{overflowX: "scroll"}}>
+      <h4>Most cited genes: last 180 days</h4>
       <MaterialReactTable
         columns={columns}
         data={geneData}
         columnResizeMode="onChange" //default is "onEnd"
         enableTopToolbar={true}
-        initialState={{ 
-          density: 'compact', 
+        muiTableContainerProps={{ sx: { maxHeight: '300px' } }}
+        initialState={{
+          density: 'compact',
           pagination: { pageSize: 10, pageIndex: 0}
         }}
       />
-      
+
       <br/>
     </div>
-    
+
   )
 }
