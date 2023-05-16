@@ -25,7 +25,7 @@ export default function TrendsDashboard() {
       console.error(error)
     })
   }, [])
-  
+
   const callback = (genes:string[])=>{
     setSelectedGenes(genes);
 
@@ -51,7 +51,7 @@ export default function TrendsDashboard() {
           <TrendsTimeline genes={getTop10CitedGenes(geneData)}/>
         </div>
       </div>
-      <div className="w3-container w3-row w3-padding-32">
+      <div className="w3-container w3-row w3-padding-48">
           {geneData.length>0 && <TrendsTable geneData={geneData}/>}
         </div>
     </div>
