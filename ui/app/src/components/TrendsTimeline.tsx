@@ -5,7 +5,7 @@ import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'r
 import { genericType } from '../utils/dataUtils'
 
 type Props = {
-  genes:string[] // a list of gene symbols
+  gene:string // a gene symbol
 }
 
 const dateFormatter = (time: string | number): string => {
@@ -16,35 +16,31 @@ const dateFormatter = (time: string | number): string => {
   return `${month} ${day} ${year}`;
 };
 
-export default function TrendsTimeline({genes}: Props) {
-  let vizData = randomDataGenerator(genes)
+export default function TrendsTimeline({gene}: Props) {
+  let vizData = randomDataGenerator(gene)
   let colorTheme = schemeTableau10;
   return (
-    <LineChart width={1000} height={300} data={vizData}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="date" tickFormatter={dateFormatter}/>
-      <YAxis/>
-      <Tooltip labelFormatter={dateFormatter}/>
-      <Legend />
-      {genes.map((g, i)=>{
-        return <Line type="monotone" dataKey={g} name={g} stroke={colorTheme[i]} activeDot={{ r: 1 }} />
-      })}
-     
-    </LineChart>
+      <LineChart width={1000} height={300} data={vizData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" tickFormatter={dateFormatter}/>
+        <YAxis/>
+        <Tooltip labelFormatter={dateFormatter}/>
+        <Legend />
+        <Line type="monotone" dataKey={gene} name={gene} stroke={colorTheme[0]} dot={false} />
+      
+      </LineChart>
+   
   )
 }
 
-function randomDataGenerator(glist:string[]){
+function randomDataGenerator(selectedGene:string){
   let randomData:any[] = [];
 
-  const startDate = new Date('2022-06-01');
+  const startDate = new Date('2022-11-01');
   const endDate = new Date();
   const millisecondsPerDay: number = 1000 * 60 * 60 * 24;
 
   const days = Math.floor((endDate.getTime() - startDate.getTime()) / millisecondsPerDay);
-
-  console.log(glist); 
-
   let date = startDate;
 
   range(days-1).forEach((day)=>{
@@ -54,10 +50,8 @@ function randomDataGenerator(glist:string[]){
       date: theDate
     }
     let geneData:genericType = {}
-    glist.forEach((g)=>{
-      let seed = randomUniform(10, 100)();
-      geneData[g] = Math.round(randomNormal(seed, seed*0.1)())
-    })
+    let seed = randomUniform(10, 100)();
+    geneData[selectedGene] = Math.round(randomNormal(seed, seed*0.1)())
     randomData.push(Object.assign({}, data, geneData))
     date.setDate(date.getDate() + 1);
     

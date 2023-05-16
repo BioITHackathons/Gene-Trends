@@ -9,7 +9,7 @@ const verbose = false;
 export default function TrendsDashboard() {
   const [geneWikiMap, setGeneWikiMap] = useState<Map<string, string>>(new Map())
   const [geneSymbols, setGeneSymbols ] = useState<string[]>([]);
-  const [selectedGenes, setSelectedGenes] = useState<string[]>([]);
+  const [selectedGene, setSelectedGene] = useState<string>();
   const [geneData, setGeneData] = useState<geneHintType[]>([]);
   useEffect(()=>{
     const promises = [
@@ -17,23 +17,18 @@ export default function TrendsDashboard() {
       tsv('data/homo_sapiens_gene_hints.tsv') // pubmed + wiki
     ]
     Promise.all(promises).then(([input, input2])=>{
-      console.log(input2)
       setGeneWikiMap(getGeneWikiMap(input));
       setGeneSymbols(getGeneSymbols(input2)); // from pubmed+wiki
       setGeneData(getGenes(input2));
+      setSelectedGene(getTopCitedGene(input2))
     }).catch(error=>{
       console.error(error)
     })
   }, [])
 
-  const callback = (genes:string[])=>{
-    setSelectedGenes(genes);
-
-    // if (verbose){
-      genes.forEach((g)=>{
-        console.log(g, geneWikiMap.get(g))
-      })
-    // }
+  const callback = (gene:string)=>{
+    setSelectedGene(gene);
+    console.log(gene, geneWikiMap.get(gene))
   }
   return (
     <div className="w3-container">
@@ -44,11 +39,13 @@ export default function TrendsDashboard() {
           <TrendsForm callback={callback} geneSymbols={geneSymbols} geneInfoMap={geneWikiMap}/>
         </div>
         <div className="w3-container w3-cell" style={{width:"80%", minHeight:"500px"}}>
-          {/* {getTop10CitedGenes(geneData).map((g, i)=>{
-            return <div key={i}>{i} {g.gene}</div>
-          })} */}
-          <TrendsIdeogram defaultGenes={getTop10CitedGenes(geneData)} selectedGenes={selectedGenes}/>
-          <TrendsTimeline genes={getTop10CitedGenes(geneData)}/>
+          
+          {selectedGene!==undefined &&
+          <>
+            {/* <TrendsIdeogram gene={selectedGene}/> */}
+            <TrendsTimeline gene={selectedGene}/>
+          </>
+          }
         </div>
       </div>
       <div className="w3-container w3-row w3-padding-48">
@@ -107,4 +104,8 @@ function getGenes(data:any[]):geneHintType[]{
 
 function getTop10CitedGenes(data:geneHintType[]):string[]{
   return data.sort((a, b)=>descending(a.cites, b.cites)).slice(0, 10).map((d)=>d.gene)
+}
+
+function getTopCitedGene(data:any[]):string{
+  return data.sort((a, b)=>descending(parseInt(a.cites), parseInt(b.cites))).slice(0, 1).map((d)=>d.gene)[0]
 }
